@@ -113,7 +113,7 @@ namespace DynamicLua
         private void SetTableMember(string name, object value)
         {
             object tmp = LuaHelper.WrapObject(value, path + "." + name, state);
-            if (tmp != null) //if a function was registered tmp is null, but we dont want to nil the function :P TODO: Could this be used to overwrite functions without using __newindex?
+            if (tmp != null) //if a function was registered tmp is null, but we dont want to nil the function :P 
             {
                 LuaFunction func = GetMetaFunction("newindex");
                 if (func != null)
