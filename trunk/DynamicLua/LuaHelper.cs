@@ -56,8 +56,24 @@ namespace DynamicLua
         {
             if (toWrap is MulticastDelegate)
             {
+                //We have to deal with a problem here: RegisterFunction does not really create
+                //a new function, but a userdata with a __call metamethod. This works fine in all
+                //except two cases: When Lua looks for an __index or __newindex metafunction and finds
+                //a table or userdata, Lua tries to redirect the read/write operation to that table/userdata.
+                //In case of our function that is in reality a userdata this fails. So we have to check
+                //for these function and create a very thin wrapper arround this to make Lua see a function instead
+                //the real userdata. This is no problem for the other metamethods, these are called independent
+                //from their type. (If they are not nil ;))
                 MulticastDelegate function = (toWrap as MulticastDelegate);
-                state.RegisterFunction(name, function.Target, function.Method);
+
+                if (name.EndsWith("__index") || name.EndsWith("_newindex"))
+                {
+                    string tmpName = LuaHelper.GetRandomString(8);
+                    state.RegisterFunction(tmpName, function.Target, function.Method);
+                    state.DoString(String.Format("function {0}(...) return {1}(unpack(arg)) end", name, tmpName), "DynamicLua internal operation");
+                }
+                else
+                    state.RegisterFunction(name, function.Target, function.Method);
                 return null;
             }
             else
