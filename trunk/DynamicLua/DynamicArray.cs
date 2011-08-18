@@ -92,7 +92,7 @@ namespace DynamicLua
             yield break;
         }
 
-        public override bool TryConvert(ConvertBinder binder, out object result)
+        public override bool TryConvert(ConvertBinder binder, out object result) //TODO: Lua Array?
         {
             result = null;
 
@@ -104,6 +104,13 @@ namespace DynamicLua
 
             if (array.Length != 1)
                 return false;
+
+            if (array[0].GetType() == typeof(LuaTable) || array[0].GetType() == typeof(LuaFunction))
+            {
+                result = LuaHelper.UnWrapObject(array[0], state);
+                return true;
+            }
+
             if (array[0].GetType() != binder.Type)
                 return false;
 
