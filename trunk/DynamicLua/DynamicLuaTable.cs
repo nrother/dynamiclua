@@ -263,7 +263,21 @@ namespace DynamicLua
         {
             //TODO: Umbauen
             //Do the operation in lua, to use the metatable
-            return state.DoString(String.Format("tostring({0}", path), "DynamicLua internal operation")[0].ToString();
+            return state.DoString(String.Format("tostring({0})", path), "DynamicLua internal operation")[0].ToString();
+        }
+
+        public override bool TryConvert(ConvertBinder binder, out object result)
+        {
+            if (binder.Type == typeof(LuaTable))
+            {
+                result = table;
+                return true;
+            }
+            else
+            {
+                result = null;
+                return false;
+            }
         }
     }
 }
