@@ -34,7 +34,7 @@ namespace DynamicLua
         {
             string ret = string.Empty;
             StringBuilder SB = new System.Text.StringBuilder();
-            string Content = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            string Content = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             for (int i = 0; i < lenght; i++)
                 SB.Append(Content[Random.Next(Content.Length)]);
             return SB.ToString();
@@ -52,7 +52,7 @@ namespace DynamicLua
                 return wrapped;
         }
 
-        public static object WrapObject(object toWrap, string name, Lua state)
+        public static object WrapObject(object toWrap, string name, Lua state) //TODO: Unwrap passed DynamicTables/Functions?
         {
             if (toWrap is MulticastDelegate)
             {
@@ -66,15 +66,20 @@ namespace DynamicLua
                 //from their type. (If they are not nil ;))
                 MulticastDelegate function = (toWrap as MulticastDelegate);
 
-                if (name.EndsWith("__index") || name.EndsWith("_newindex"))
+                if (name.EndsWith("__index") || name.EndsWith("__newindex"))
                 {
                     string tmpName = LuaHelper.GetRandomString(8);
                     state.RegisterFunction(tmpName, function.Target, function.Method);
-                    state.DoString(String.Format("function {0}(...) return {1}(unpack(arg)) end", name, tmpName), "DynamicLua internal operation");
+                    state.DoString(String.Format("function {0}(...) return {1}(...) end", name, tmpName), "DynamicLua internal operation");
                 }
                 else
                     state.RegisterFunction(name, function.Target, function.Method);
                 return null;
+            }
+            else if (toWrap is DynamicLuaTable)
+            {
+                dynamic dlt = toWrap as DynamicLuaTable;
+                return (LuaTable)dlt;
             }
             else
                 return toWrap;
