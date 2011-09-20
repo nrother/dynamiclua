@@ -51,9 +51,9 @@ namespace DynamicLua
             }
         }
 
-        public object[] DoFile(string path)
+        public DynamicArray DoFile(string path)
         {
-            return lua.DoFile(Path.Combine(Environment.CurrentDirectory, path));
+            return new DynamicArray(lua.DoFile(Path.Combine(Environment.CurrentDirectory, path)), lua);
         }
 
         public DynamicLuaFunction LoadFile(string path)

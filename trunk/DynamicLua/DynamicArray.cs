@@ -21,7 +21,7 @@ using LuaInterface;
 
 namespace DynamicLua
 {
-    class DynamicArray : DynamicObject, IEnumerable, IEnumerable<object>, IEnumerable<string>
+    public class DynamicArray : DynamicObject, IEnumerable, IEnumerable<object>, IEnumerable<string>
     {
         private object[] array;
         private Lua state;
@@ -30,6 +30,11 @@ namespace DynamicLua
         {
             this.array = array != null ? array : new object[0];
             this.state = state;
+        }
+
+        public int Length
+        {
+            get { return array.Length; }
         }
 
         public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
@@ -107,7 +112,7 @@ namespace DynamicLua
 
             if (array[0].GetType() == typeof(LuaTable) || array[0].GetType() == typeof(LuaFunction))
             {
-                result = LuaHelper.UnWrapObject(array[0], state);
+                result = LuaHelper.UnWrapObject(array[0], state); //TODO: Wrong???
                 return true;
             }
 
