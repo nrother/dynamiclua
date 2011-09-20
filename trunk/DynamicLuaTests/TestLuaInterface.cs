@@ -58,7 +58,7 @@ namespace DynamicLuaTests
         public void SetGlobalNumber()
         {
             lua("a=2");
-            lua["a"] = 3;
+            lua.a = 3;
             double num = lua.a;
             Assert.AreEqual(num, 3);
         }
@@ -81,7 +81,7 @@ namespace DynamicLuaTests
         public void SetNumberInTable()
         {
             lua("a={b={c=2}}");
-            lua["a.b.c"] = 3;
+            lua.a.b.c = 3;
             double num = lua.a.b.c;
             Assert.AreEqual(num, 3);
         }
@@ -102,7 +102,7 @@ namespace DynamicLuaTests
         public void SetGlobalString()
         {
             lua("a=\"test\"");
-            lua["a"] = "new test";
+            lua.a = "new test";
             string str = lua.a;
             Assert.AreEqual(str, "new test");
         }
@@ -125,7 +125,7 @@ namespace DynamicLuaTests
         public void SetStringInTable()
         {
             lua("a={b={c=\"test\"}}");
-            lua["a.b.c"] = "new test";
+            lua.a.b.c = "new test";
             string str = lua.a.b.c;
             Assert.AreEqual(str, "new test");
         }
@@ -137,7 +137,7 @@ namespace DynamicLuaTests
         {
             lua("a={b={c=2}}\nb={c=3}");
             dynamic tab = lua.b;
-            lua["a.b"] = tab;
+            lua.a.b = tab;
             double num = lua.a.b.c;
             Assert.AreEqual(num, 3);
         }
@@ -277,9 +277,9 @@ namespace DynamicLuaTests
         public void CallGlobalFunctionOneReturn()
         {
             lua("function f(x)\nreturn x+2\nend");
-            object[] ret = lua.f(3);
+            dynamic ret = lua.f(3);
             Assert.AreEqual(1, ret.Length);
-            Assert.AreEqual(5.0, ret[0]);
+            Assert.AreEqual(5.0, (double)ret);
         }
         /*
          * Tests calling of a global function that returns two values
@@ -288,7 +288,7 @@ namespace DynamicLuaTests
         public void CallGlobalFunctionTwoReturns()
         {
             lua("function f(x,y)\nreturn x,x+y\nend");
-            object[] ret = lua.f(3, 2);
+            dynamic ret = lua.f(3, 2);
             Assert.AreEqual(2, ret.Length);
             Assert.AreEqual(3.0, ret[0]);
             Assert.AreEqual(5.0, ret[1]);
@@ -300,7 +300,7 @@ namespace DynamicLuaTests
         public void CallTableFunctionTwoReturns()
         {
             lua("a={}\nfunction a.f(x,y)\nreturn x,x+y\nend");
-            object[] ret = lua.a.f(3, 2);
+            dynamic ret = lua.a.f(3, 2);
             Assert.AreEqual(2, ret.Length);
             Assert.AreEqual(3.0, ret[0]);
             Assert.AreEqual(5.0, ret[1]);
@@ -313,8 +313,8 @@ namespace DynamicLuaTests
         {
             TestClass t1 = new TestClass();
             t1.testval = 4;
-            lua["netobj"] = t1;
-            object o = lua["netobj"];
+            lua.netobj = t1;
+            dynamic o = lua.netobj;
             Assert.IsInstanceOfType(o, typeof(TestClass));
             TestClass t2 = o as TestClass;
             Assert.AreEqual(t2.testval, 4);
@@ -343,9 +343,9 @@ namespace DynamicLuaTests
         {
             TestClass t1 = new TestClass();
             t1.val = 4;
-            lua["netobj"] = t1;
+            lua.netobj = t1;
             lua("var=netobj.val");
-            double var = lua["var"];
+            double var = lua.var;
             Assert.AreEqual(4, var);
             lua("netobj.val=3");
             Assert.AreEqual(3, t1.val);
@@ -359,9 +359,9 @@ namespace DynamicLuaTests
         {
             TestClass t1 = new TestClass();
             t1.testval = 4;
-            lua["netobj"] = t1;
+            lua.netobj = t1;
             lua("var=netobj.testval");
-            double var = lua["var"];
+            double var = lua.var;
             Assert.AreEqual(4, var);
             lua("netobj.testval=3");
             Assert.AreEqual(3, t1.testval);
@@ -374,7 +374,7 @@ namespace DynamicLuaTests
         {
             TestClass t1 = new TestClass();
             t1.testval = 4;
-            lua["netobj"] = t1;
+            lua.netobj = t1;
             lua("netobj:setVal(3)");
             Assert.AreEqual(3, t1.testval);
             lua("val=netobj:getVal()");
@@ -388,7 +388,7 @@ namespace DynamicLuaTests
         public void CallObjectMethodByType()
         {
             TestClass t1 = new TestClass();
-            lua["netobj"] = t1;
+            lua.netobj = t1;
             lua("netobj:setVal('str')");
             Assert.AreEqual("str", t1.getStrVal());
         }
@@ -396,11 +396,11 @@ namespace DynamicLuaTests
          * Tests calling of an object's method with no overloading
          * and out parameters
          */
-        [TestMethod] //TODO: Fix out Parameters
+        [TestMethod]
         public void CallObjectMethodOutParam()
         {
             TestClass t1 = new TestClass();
-            lua["netobj"] = t1;
+            lua.netobj = t1;
             lua("a,b=netobj:outVal()");
             double a = lua.a;
             double b = lua.b;
@@ -415,7 +415,7 @@ namespace DynamicLuaTests
         public void CallObjectMethodOverloadedOutParam()
         {
             TestClass t1 = new TestClass();
-            lua["netobj"] = t1;
+            lua.netobj = t1;
             lua("a,b=netobj:outVal(2)");
             double a = lua.a;
             double b = lua.b;
@@ -429,7 +429,7 @@ namespace DynamicLuaTests
         public void CallObjectMethodByRefParam()
         {
             TestClass t1 = new TestClass();
-            lua["netobj"] = t1;
+            lua.netobj = t1;
             lua("a,b=netobj:outVal(2,3)");
             double a = lua.a;
             double b = lua.b;
@@ -444,7 +444,7 @@ namespace DynamicLuaTests
         public void CallObjectMethodDistinctInterfaces()
         {
             TestClass t1 = new TestClass();
-            lua["netobj"] = t1;
+            lua.netobj = t1;
             lua("a=netobj:foo()");
             lua("b=netobj['IFoo1.foo'](netobj)");
             double a = lua.a;
@@ -496,7 +496,7 @@ namespace DynamicLuaTests
         public void ReadArrayField()
         {
             string[] arr = new string[] { "str1", "str2", "str3" };
-            lua["netobj"] = arr;
+            lua.netobj = arr;
             lua("val=netobj[1]");
             string val = lua.val;
             Assert.AreEqual("str2", val);
@@ -508,7 +508,7 @@ namespace DynamicLuaTests
         public void WriteArrayField()
         {
             string[] arr = new string[] { "str1", "str2", "str3" };
-            lua["netobj"] = arr;
+            lua.netobj = arr;
             lua("netobj[1]='test'");
             Assert.AreEqual("test", arr[1]);
         }
