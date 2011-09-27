@@ -261,9 +261,11 @@ namespace DynamicLua
 
         public override string ToString()
         {
-            //TODO: Umbauen
-            //Do the operation in lua, to use the metatable
-            return state.DoString(String.Format("tostring({0})", path), "DynamicLua internal operation")[0].ToString();
+            LuaFunction func = GetMetaFunction("tostring");
+            if (func != null)
+                return func.Call(table)[0].ToString();
+            else
+                return table.ToString();
         }
 
         public override bool TryConvert(ConvertBinder binder, out object result)
@@ -271,6 +273,11 @@ namespace DynamicLua
             if (binder.Type == typeof(LuaTable))
             {
                 result = table;
+                return true;
+            }
+            else if (binder.Type == typeof(String))
+            {
+                result = ToString();
                 return true;
             }
             else
