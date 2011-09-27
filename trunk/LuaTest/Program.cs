@@ -26,39 +26,15 @@ namespace LuaTest
         static void Main(string[] args)
         {
             dynamic lua = new DynamicLua.DynamicLua();
-            lua("abc = 5");
-            lua.abc += 10;
-            Console.WriteLine(lua.abc);
-            
-            
-            /*LuaFunctions functions = new LuaFunctions();
-            //Register "dump" Function
-            lua("local seen={}; function dump(t,i) seen[t]=true; local s={}; local n=0; for k in pairs(t) do n=n+1 s[n]=k; end; table.sort(s); for k,v in ipairs(s) do print(i..v..' ('..type(t[v])..')'); v=t[v]; if type(v)==\"table\" and not seen[v] then dump(v,i..\"\t\");end;end;end;");
 
-            //Metatables...
-            dynamic mt = lua.NewTable("mt");
-            mt.__index = new Func<object, object, int>((_1, _2) => 42);
-            //lua("function mt:__index(...) print(#arg); for i=1,#arg do print(' '..tostring(arg[i])) end return 42 end");
-            dynamic tab = lua.NewTable("tab");
-            tab.SetMetatable(mt);
+            lua("c1 = { num = 42 }; c2 = { num = 7 }");
+            lua("mtc = { __add = function(t, other) return t.num + other.num end }");
+            lua("setmetatable(c1, mtc)");
+            lua("setmetatable(c2, mtc)");
 
-            //lua("print(tab.abc)");
-            lua("print(mt.__index(tab, 'abc'))");
-            Console.WriteLine(lua.tab.abc);
-
-            /*lua("tab = {}");
-            lua("function tab:test(...) print(#arg); for i=1,#arg do print(' '..arg[i]) end return 42 end");
-            lua.tab.test("abc", 123);*/
+            Console.WriteLine(lua.c1 + lua.c2);
 
             Console.ReadKey(true);
-        }
-    }
-
-    class LuaFunctions
-    {
-        public void TestFunction()
-        {
-            Console.WriteLine("Test Function");
         }
     }
 }

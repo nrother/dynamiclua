@@ -232,9 +232,9 @@ namespace DynamicLua
 
             object ret;
             if (!switchOperands)
-                ret = mtFunc.Call(table, arg)[0]; //Metamethods just return one value, or the other will be ignored anyway
+                ret = mtFunc.Call(table, LuaHelper.WrapObject(arg, LuaHelper.GetRandomString(8), state))[0]; //Metamethods just return one value, or the other will be ignored anyway
             else
-                ret = mtFunc.Call(arg, table)[0];
+                ret = mtFunc.Call(LuaHelper.WrapObject(arg, LuaHelper.GetRandomString(8), state), table)[0];
 
             if (negateResult && ret is bool) //We can't negate if its not bool. If the metamethod returned someting other than bool and ~= is called there will be a bug. (But who would do this?)
                 ret = !(bool)ret;
