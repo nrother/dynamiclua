@@ -22,6 +22,8 @@ namespace DynamicLua
 {
     static class LuaHelper
     {
+        public const int RandomNameLength = 8;
+        
         public static Random Random { get; private set; }
 
         static LuaHelper() //static ctor
@@ -29,7 +31,14 @@ namespace DynamicLua
             Random = new Random();
         }
 
-        //see http://dotnet-snippets.de/dns/passwort-generieren-SID147.aspx
+
+        /// <summary>
+        /// Returns a random string with the specified lenght. Use the overload
+        /// without paramters for the default length.
+        /// This can be safely used as a Lua Variable Name, but is not checked
+        /// for collsions.
+        /// </summary>
+        /// <remarks>see http://dotnet-snippets.de/dns/passwort-generieren-SID147.aspx</remarks>
         public static string GetRandomString(int lenght)
         {
             string ret = string.Empty;
@@ -40,6 +49,19 @@ namespace DynamicLua
             return SB.ToString();
         }
 
+        /// <summary>
+        /// Returns a random string with lenght LuaHelper.RandomNameLength.
+        /// This can be safely used as a Lua Variable Name, but is not checked
+        /// for collsions.
+        /// </summary>
+        public static string GetRandomString()
+        {
+            return GetRandomString(RandomNameLength);
+        }
+
+        /// <summary>
+        /// Unwaps an object comming from LuaInterface for use in DynamicLua.
+        /// </summary>
         public static object UnWrapObject(object wrapped, Lua state, string name = null)
         {
             if (wrapped is LuaTable)
@@ -52,7 +74,11 @@ namespace DynamicLua
                 return wrapped;
         }
 
-        public static object WrapObject(object toWrap, string name, Lua state) //TODO: Unwrap passed DynamicTables/Functions?
+        /// <summary>
+        /// Wraps an object to prepare it for passing to LuaInterface. If no name is specified, a 
+        /// random one with the default length is used.
+        /// </summary>
+        public static object WrapObject(object toWrap, Lua state, string name = null)
         {
             if (toWrap is MulticastDelegate)
             {
@@ -66,14 +92,18 @@ namespace DynamicLua
                 //from their type. (If they are not nil ;))
                 MulticastDelegate function = (toWrap as MulticastDelegate);
 
-                if (name.EndsWith("__index") || name.EndsWith("__newindex"))
+                if (name != null && (name.EndsWith("__index") || name.EndsWith("__newindex")))
                 {
-                    string tmpName = LuaHelper.GetRandomString(8);
+                    string tmpName = LuaHelper.GetRandomString();
                     state.RegisterFunction(tmpName, function.Target, function.Method);
                     state.DoString(String.Format("function {0}(...) return {1}(...) end", name, tmpName), "DynamicLua internal operation");
                 }
                 else
+                {
+                    if (name == null)
+                        name = LuaHelper.GetRandomString();
                     state.RegisterFunction(name, function.Target, function.Method);
+                }
                 return null;
             }
             else if (toWrap is DynamicLuaTable)

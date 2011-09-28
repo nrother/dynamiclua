@@ -112,7 +112,7 @@ namespace DynamicLua
 
             if (array[0].GetType() == typeof(LuaTable) || array[0].GetType() == typeof(LuaFunction))
             {
-                result = LuaHelper.UnWrapObject(array[0], state); //TODO: Wrong???
+                result = LuaHelper.UnWrapObject(array[0], state);
                 return true;
             }
 

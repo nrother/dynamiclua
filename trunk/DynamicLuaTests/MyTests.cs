@@ -45,28 +45,6 @@ namespace DynamicLuaTests
             lua = null;
         }
 
-        #region Zusätzliche Testattribute
-        //
-        // Sie können beim Schreiben der Tests folgende zusätzliche Attribute verwenden:
-        //
-        // Verwenden Sie ClassInitialize, um vor Ausführung des ersten Tests in der Klasse Code auszuführen.
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Verwenden Sie ClassCleanup, um nach Ausführung aller Tests in einer Klasse Code auszuführen.
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Mit TestInitialize können Sie vor jedem einzelnen Test Code ausführen. 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Mit TestCleanup können Sie nach jedem einzelnen Test Code ausführen.
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
         [TestMethod]
         public void TestIndexing()
         {
@@ -112,6 +90,13 @@ namespace DynamicLuaTests
         }
 
         [TestMethod]
+        public void TestLoadString()
+        {
+            lua.LoadString("a = true")();
+            Assert.IsTrue(lua.a);
+        }
+
+        [TestMethod]
         public void TestDelegates()
         {
             delegateTest = false;
@@ -129,7 +114,7 @@ namespace DynamicLuaTests
         }
 
         [TestMethod]
-        public void TestsUnwrapping()
+        public void TestUnwrapping()
         {
             lua("a=false");
             lua("function test() a=true end");
@@ -183,6 +168,136 @@ namespace DynamicLuaTests
             delegateTest = false;
             tab.test();
             Assert.IsTrue(delegateTest);
+        }
+
+        [TestMethod]
+        public void TestMetamethodAdd() //And sub, mul, etc.
+        {
+            lua("c1 = { num = 42 }; c2 = { num = 7 }");
+            lua("mtc = { __add = function(t, other) return t.num + other.num end }");
+            lua("setmetatable(c1, mtc)");
+            lua("setmetatable(c2, mtc)");
+
+            Assert.AreEqual(49.0, lua.c1 + lua.c2);
+        }
+
+        [TestMethod]
+        public void TestMetamethodIndex()
+        {
+            dynamic tab = lua.NewTable("tab");
+            dynamic mt = lua.NewTable("mt");
+            mt.__index = new Func<dynamic, string, double>((t, i) => Math.Pow(int.Parse(i), 2));
+            tab.SetMetatable(mt);
+
+            for (int i = 0; i <= 10; i++)
+            {
+                Assert.AreEqual(i * i, tab[i]);
+            }
+        }
+
+        [TestMethod]
+        public void TestMetamethodNewIndex()
+        {
+            bool test = false;
+            dynamic tab = lua.NewTable("tab");
+            dynamic mt = lua.NewTable("mt");
+            mt.__newindex = new Action<dynamic, string, object>((t, i, v) => test = true);
+            tab.SetMetatable(mt);
+
+            tab.abc = "cdf";
+
+            Assert.IsTrue(test);
+        }
+
+        [TestMethod]
+        public void TestMetamethodLogic()
+        {
+            dynamic tab1 = lua.NewTable("tab1");
+            tab1.num = 1;
+            dynamic tab2 = lua.NewTable("tab2");
+            tab2.num = 2;
+            dynamic mt = lua.NewTable("mt");
+            mt.__lt = new Func<dynamic, dynamic, bool>((t, other) => t["num"] < other["num"]);
+            mt.__le = new Func<dynamic, dynamic, bool>((t, other) => t["num"] <= other["num"]);
+            tab1.SetMetatable(mt);
+            tab2.SetMetatable(mt);
+
+            Assert.IsTrue(tab1 < tab2);
+            Assert.IsFalse(tab1 > tab2);
+
+            tab1.num = 2;
+
+            Assert.IsTrue(tab1 <= tab2);
+            Assert.IsTrue(tab1 >= tab2);
+        }
+
+        [TestMethod]
+        public void TestMetamethodNegate()
+        {
+            dynamic tab = lua.NewTable("tab");
+            tab.num = 42;
+            dynamic mt = lua.NewTable("mt");
+            mt.__unm = new Func<dynamic, double>((t) => -t["num"]);
+            tab.SetMetatable(mt);
+
+            Assert.AreEqual(-42.0, -tab);
+        }
+
+        [TestMethod]
+        public void TestMetamethodToString()
+        {
+            dynamic tab = lua.NewTable("tab");
+            dynamic mt = lua.NewTable("mt");
+            mt.__tostring = new Func<dynamic, string>((t) => "tostring");
+            tab.SetMetatable(mt);
+
+            Assert.AreEqual("tostring", tab.ToString());
+            Assert.AreEqual("tostring", (string)tab);
+        }
+
+        [TestMethod]
+        public void TestMetamethodCall()
+        {
+            dynamic tab = lua.NewTable("tab");
+            dynamic mt = lua.NewTable("mt");
+            mt.__call = new Func<dynamic, object>((t) => "call no args");
+            tab.SetMetatable(mt);
+
+            Assert.AreEqual("call no args", (string)tab()); //Need explicit cast for Assert...
+        }
+
+        [TestMethod]
+        public void TestMetamethodPower()
+        {
+            dynamic tab = lua.NewTable("tab");
+            tab.num = 42;
+            dynamic mt = lua.NewTable("mt");
+            mt.__pow = new Func<dynamic, double, double>((t, p) => Math.Pow(t["num"], p));
+            tab.SetMetatable(mt);
+
+            Assert.AreEqual(Math.Pow(42.0, 2.0), tab.Power(2.0)[0]);
+        }
+
+        [TestMethod]
+        public void TestGetMetatable()
+        {
+            dynamic tab = lua.NewTable("tab");
+            dynamic mt = lua.NewTable("mt");
+            tab.SetMetatable(mt);
+
+            Assert.AreEqual(mt, tab.GetMetatable());
+        }
+
+        [TestMethod]
+        public void TestTableOperators()
+        {
+            dynamic tab = lua.NewTable("tab");
+            dynamic tab2 = lua.tab; //Not the same CLR instance, but the same table!
+
+            Assert.AreEqual(tab, tab2);
+            Assert.IsTrue(tab == tab2);
+            Assert.IsFalse(tab != tab2);
+            tab.GetHashCode();
         }
     }
 }

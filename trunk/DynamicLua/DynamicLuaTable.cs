@@ -34,9 +34,9 @@ namespace DynamicLua
             this.table = table;
             this.state = state;
             if (path == null)
-                path = LuaHelper.GetRandomString(8); //tables need a name, so we can access them
+                path = LuaHelper.GetRandomString(); //tables need a name, so we can access them
             this.path = path;
-        } //TODO: Power() for C#, rawget?, rawset?
+        }
 
         ~DynamicLuaTable()
         {
@@ -58,9 +58,9 @@ namespace DynamicLua
             return table.GetEnumerator();
         }
 
-        public object GetMetatable()
+        public dynamic GetMetatable()
         {
-            return LuaHelper.UnWrapObject(state.DoString(String.Format("getmetatable({0})", path), "DynamicLua internal operation")[0], state, path);
+            return LuaHelper.UnWrapObject(state.DoString(String.Format("return getmetatable({0})", path), "DynamicLua internal operation")[0], state);
         }
 
         public void SetMetatable(DynamicLuaTable table)
@@ -81,9 +81,6 @@ namespace DynamicLua
                 return LuaHelper.UnWrapObject(func.Call(table, name)[0], state, path + "." + name);
             else
                 return LuaHelper.UnWrapObject(table[name], state, path + "." + name);
-
-            //use lua to get the object, to use the metatable
-            //return LuaHelper.UnWrapObject(state.DoString(String.Format("return {0}[{1}]", path, name), "DynamicLua internal operation")[0], state, path + "." + name);
         }
 
         //Gets a function from this table's metatable or null if not found. Works even if the metatable is protected. The two underscores are added by this method!!
@@ -91,7 +88,7 @@ namespace DynamicLua
         {
             if ((bool)state.DoString(String.Format("return debug.getmetatable({0}) == nil", path), "DynamicLua internal operation")[0])
                 return null; //Metatable not set
-            
+
             //This is NO performace problem, according to my benchmarks, debug.gmt() is even faster than the normal gmt()! (But you need 1 billion operations to messuare it... on my PC)
             object funcOrNative = state.DoString(String.Format("return debug.getmetatable({0}).__{1}", path, name), "DynamicLua internal operation")[0];
 
@@ -112,7 +109,7 @@ namespace DynamicLua
 
         private void SetTableMember(string name, object value)
         {
-            object tmp = LuaHelper.WrapObject(value, path + "." + name, state);
+            object tmp = LuaHelper.WrapObject(value, state, path + "." + name);
             if (tmp != null) //if a function was registered tmp is null, but we dont want to nil the function :P 
             {
                 LuaFunction func = GetMetaFunction("newindex");
@@ -137,24 +134,26 @@ namespace DynamicLua
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            //TODO: Umbauen
-            //Implemented in lua to use the metatable
-            StringBuilder luaCall = new StringBuilder(path + "(");
-            string name;
-            foreach (object item in args) //Pass all parameters to lua and add the name to the parameter list
+            for (int i = 0; i < args.Length; i++)
+                args[i] = LuaHelper.WrapObject(args[i], state);
+
+            LuaFunction func = GetMetaFunction("call");
+            if (func != null)
             {
-                name = LuaHelper.GetRandomString(8);
-                state[name] = item;
-                luaCall.Append(name);
-                luaCall.Append(",");
+                if (args.Length == 0)
+                    result = new DynamicArray(func.Call(table), state);
+                else
+                    result = new DynamicArray(func.Call(table, args), state);
+                return true;
             }
-            luaCall.Remove(luaCall.Length - 2, 1); //Remove last ","
-            luaCall.Append(")");
-            result = new DynamicArray(state.DoString(luaCall.ToString(), "DynamicLua internal operation"), state);
-            return true;
+            else
+            {
+                result = null;
+                return false;
+            }
         }
 
-        public override bool TryBinaryOperation(BinaryOperationBinder binder, object arg, out object result) //TODO: Unit Tests
+        public override bool TryBinaryOperation(BinaryOperationBinder binder, object arg, out object result)
         {
             /* Implementation:
              * TODO: Write it
@@ -230,16 +229,14 @@ namespace DynamicLua
                 return false;
             }
 
-            object ret;
             if (!switchOperands)
-                ret = mtFunc.Call(table, LuaHelper.WrapObject(arg, LuaHelper.GetRandomString(8), state))[0]; //Metamethods just return one value, or the other will be ignored anyway
+                result = mtFunc.Call(table, LuaHelper.WrapObject(arg, state))[0]; //Metamethods just return one value, or the other will be ignored anyway
             else
-                ret = mtFunc.Call(LuaHelper.WrapObject(arg, LuaHelper.GetRandomString(8), state), table)[0];
+                result = mtFunc.Call(LuaHelper.WrapObject(arg, state), table)[0];
 
-            if (negateResult && ret is bool) //We can't negate if its not bool. If the metamethod returned someting other than bool and ~= is called there will be a bug. (But who would do this?)
-                ret = !(bool)ret;
+            if (negateResult && result is bool) //We can't negate if its not bool. If the metamethod returned someting other than bool and ~= is called there will be a bug. (But who would do this?)
+                result = !(bool)result;
 
-            result = ret;
             return true;
         }
 
@@ -285,6 +282,47 @@ namespace DynamicLua
                 result = null;
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Performs the Power operation on this table. This is only
+        /// needed for languages like C# which have no native operators
+        /// for this. VB etc. users should use the build-in a^b operator.
+        /// </summary>
+        public dynamic Power(object operand)
+        {
+            operand = LuaHelper.WrapObject(operand, state);
+
+            LuaFunction func = GetMetaFunction("pow");
+            if (func != null)
+                return func.Call(table, operand);
+            else
+                throw new InvalidOperationException("Metamethod __pow not found");
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return table.Equals(((DynamicLuaTable)obj).table);
+        }
+
+        public override int GetHashCode()
+        {
+            return table.GetHashCode();
+        }
+
+        public static bool operator ==(DynamicLuaTable a, DynamicLuaTable b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(DynamicLuaTable a, DynamicLuaTable b)
+        {
+            return !a.Equals(b);
         }
     }
 }

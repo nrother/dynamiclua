@@ -91,7 +91,7 @@ namespace DynamicLua
 
         private void SetLuaMember(string name, object value)
         {
-            object tmp = LuaHelper.WrapObject(value, name, lua);
+            object tmp = LuaHelper.WrapObject(value, lua, name);
             if (tmp != null) //if a function was registered tmp is null, but we dont want to nil the function :P
                 lua[name] = tmp;
         }
