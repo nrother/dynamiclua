@@ -155,9 +155,6 @@ namespace DynamicLua
 
         public override bool TryBinaryOperation(BinaryOperationBinder binder, object arg, out object result)
         {
-            /* Implementation:
-             * TODO: Write it
-             */
             string metamethodName;
             bool switchOperands = false; //Lua has only comparison metamethods for less, so for greater the we have to switch the operands
             bool negateResult = false; //Lua has only metamethods for equal, so we need this trick here.
@@ -242,11 +239,9 @@ namespace DynamicLua
 
         public override bool TryUnaryOperation(UnaryOperationBinder binder, out object result)
         {
-            //TODO: Umabauen
             if (binder.Operation == ExpressionType.Negate || binder.Operation == ExpressionType.NegateChecked)
             {
                 result = GetMetaFunction("unm").Call(table)[0];
-                //result = state.DoString(String.Format("return -{0}", path), "DynmaicLua internal operation")[0];
                 return true;
             }
             else

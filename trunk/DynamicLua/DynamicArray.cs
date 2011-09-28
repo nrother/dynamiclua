@@ -97,7 +97,7 @@ namespace DynamicLua
             yield break;
         }
 
-        public override bool TryConvert(ConvertBinder binder, out object result) //TODO: Lua Array?
+        public override bool TryConvert(ConvertBinder binder, out object result)
         {
             result = null;
 
