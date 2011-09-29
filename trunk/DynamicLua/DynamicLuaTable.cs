@@ -22,7 +22,7 @@ using System.Collections;
 
 namespace DynamicLua
 {
-    public class DynamicLuaTable : DynamicObject, IEnumerable
+    public class DynamicLuaTable : DynamicObject, IEnumerable, IEnumerable<KeyValuePair<object, object>>
     {
         private LuaTable table;
         private Lua state;
@@ -53,9 +53,16 @@ namespace DynamicLua
             get { return table.Values; }
         }
 
-        public IEnumerator GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return table.GetEnumerator();
+            return (this as IEnumerable<KeyValuePair<object, object>>).GetEnumerator();
+        }
+
+        IEnumerator<KeyValuePair<object, object>> IEnumerable<KeyValuePair<object, object>>.GetEnumerator()
+        {
+            foreach (DictionaryEntry item in table)
+                yield return new KeyValuePair<object, object>(item.Key, item.Value);
+            yield break;
         }
 
         public dynamic GetMetatable()

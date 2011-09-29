@@ -299,5 +299,77 @@ namespace DynamicLuaTests
             Assert.IsFalse(tab != tab2);
             tab.GetHashCode();
         }
+
+        [TestMethod]
+        public void TestTableEnumerator()
+        {
+            dynamic tab = lua("return {a = 1, b = 2, c = 3}")[0];
+
+            int i = 0;
+            foreach (KeyValuePair<object, object> kvp in tab)
+            {
+                string key = (string)kvp.Key;
+                double value = (double)kvp.Value;
+
+                switch (key)
+                {
+                    case "a":
+                        Assert.AreEqual(1.0, value);
+                        break;
+                    case "b":
+                        Assert.AreEqual(2.0, value);
+                        break;
+                    case "c":
+                        Assert.AreEqual(3.0, value);
+                        break;
+                }
+                i++;
+            }
+            Assert.AreEqual(3, i);
+        }
+
+        [TestMethod]
+        public void TestArrayEnumerators()
+        {
+            dynamic arr = lua("return 'a','b','c'");
+
+            int i = 0;
+            foreach (string value in arr)
+            {
+                switch (i)
+                {
+                    case 0:
+                        Assert.AreEqual("a", value);
+                        break;
+                    case 1:
+                        Assert.AreEqual("b", value);
+                        break;
+                    case 2:
+                        Assert.AreEqual("c", value);
+                        break;
+                }
+                i++;
+            }
+            Assert.AreEqual(3, i);
+
+            i = 0;
+            foreach (object value in arr)
+            {
+                switch (i)
+                {
+                    case 0:
+                        Assert.AreEqual("a", value);
+                        break;
+                    case 1:
+                        Assert.AreEqual("b", value);
+                        break;
+                    case 2:
+                        Assert.AreEqual("c", value);
+                        break;
+                }
+                i++;
+            }
+            Assert.AreEqual(3, i);
+        }
     }
 }
