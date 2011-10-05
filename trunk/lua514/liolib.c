@@ -1,5 +1,5 @@
 /*
-** $Id: liolib.c,v 2.73 2006/05/08 20:14:16 roberto Exp $
+** $Id: liolib.c,v 2.73.1.4 2010/05/14 15:33:51 roberto Exp $
 ** Standard I/O (and system) library
 ** See Copyright Notice in lua.h
 */
@@ -260,7 +260,10 @@ static int read_number (lua_State *L, FILE *f) {
     lua_pushnumber(L, d);
     return 1;
   }
-  else return 0;  /* read fails */
+ else {
+	lua_pushnil(L);  /* "result" to be removed */
+	return 0;  /* read fails */
+  }
 }
 
 
