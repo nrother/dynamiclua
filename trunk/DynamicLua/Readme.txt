@@ -14,9 +14,9 @@ the source distribution the whole source code. The source code is packaged as a 
 
 "DynamicLua" is the main project containing the code for DynamicLua.dll
 "DynamicLuaTest" contains the Unittests for DynamicLua, partly copied from the LuaInterface project
-"lua" contains the source of Lua 5.1.4 coming with every release (this is written in C/C++!), plus some code from LuaInterface to make it CLR-Compliant
-"LuaInterface" is the Original LuaInterface code (the Lua-C# Bridge), but with some community patches to fix some bugs.
-"LuaTest" is a console app just containing some random tests for development. You can ignore it.
+"lua" contains the source of Lua 5.1.4 (this is written in C/C++!), plus some code from LuaInterface to make it CLR-Compliant, plus some fixes from lua.org
+"LuaInterface" is the Original LuaInterface code (the Lua-C# Bridge), but with some community patches to fix some bugs
+"LuaTest" is a console app just containing some random tests for development. You can ignore it
 
 Documentation
 -------------
@@ -25,7 +25,7 @@ Please refer to the official documentation on the Codeplex site: http://dynamicl
 Bugs/Feedback
 -------------
 You might report bugs on the Codeplex site in the Issue Tracker: http://dynamiclua.codeplex.com/workitem/list/basic
-You can also drop me an email, write to info (ät) niklas-rother (döt) de, in English or German.
+You can also drop me an email, write to info (ät) niklas-rother (dot) de, in English or German.
 
 Help
 ----
@@ -36,9 +36,12 @@ Licence
 Copyright 2011 Niklas Rother
 
 DynamicLua is licensed under the Apache License, Version 2.0.
-Lua and LuaInterface is licensed under the MIT Licence.
+Lua and LuaInterface are licensed under the MIT Licence.
 
 A full copy of the Licences can be found in the "LICENSE_Apache.txt"
 and "LICENSE_MIT.txt" file. Please include the "NOTICE.txt" File,
-containing attribution, that comes with this software in any derivative
-work, as required by the Apache license.
+containing attribution, that comes with this software, in any derivative
+work, as required by the Apache license. If the Licence Files got lost you
+can optain a copy at the following locations:
+Apache License: http://www.apache.org/licenses/LICENSE-2.0
+MIT License: http://www.opensource.org/licenses/mit-license.php
