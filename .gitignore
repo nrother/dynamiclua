@@ -2,3 +2,5 @@
 obj/
 Debug/
 Release/
+*.suo
+TestResults/

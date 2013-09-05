@@ -76,14 +76,16 @@ namespace DynamicLuaTests
         }
 
         [TestMethod]
+        [DeploymentItem("filetest1.lua")]
+        [DeploymentItem("filetest2.lua")]
         public void TestFiles()
         {
-            lua.DoFile(@"D:\c_sharp\Programme\DynamicLua\DynamicLuaTests\bin\Debug\filetest1.lua"); //TODO: No absolute paths!
+            lua.DoFile(@"filetest1.lua");
             Assert.AreEqual(lua.filetest1, "ok");
             lua.filetestfunc1();
             Assert.AreEqual(lua.filetest2, true);
 
-            lua.LoadFile(@"D:\c_sharp\Programme\DynamicLua\DynamicLuaTests\bin\Debug\filetest2.lua")();
+            lua.LoadFile(@"filetest2.lua")();
             Assert.AreEqual(lua.filetest3, "ok");
             lua.filetestfunc2();
             Assert.AreEqual(lua.filetest4, true);
