@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Dynamic;
 using System.Collections;
-using LuaInterface;
+using NLua;
 
 namespace DynamicLua
 {

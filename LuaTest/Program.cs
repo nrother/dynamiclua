@@ -34,6 +34,9 @@ namespace LuaTest
 
             Console.WriteLine(lua.c1 + lua.c2);
 
+            lua.DoFile("test.lua");
+            Console.WriteLine(lua.tab.test);
+
             Console.ReadKey(true);
         }
     }

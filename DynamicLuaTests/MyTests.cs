@@ -22,6 +22,7 @@ using DynamicLua;
 namespace DynamicLuaTests
 {
     [TestClass]
+    [DeploymentItem("lua52.dll")]
     public class MyTests
     {
         private TestContext testContextInstance;
