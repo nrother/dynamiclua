@@ -60,9 +60,7 @@ namespace DynamicLua
 
         IEnumerator<KeyValuePair<object, object>> IEnumerable<KeyValuePair<object, object>>.GetEnumerator()
         {
-            foreach (DictionaryEntry item in table)
-                yield return new KeyValuePair<object, object>(item.Key, item.Value);
-            yield break;
+            return (IEnumerator<KeyValuePair<object, object>>)table.GetEnumerator();
         }
 
         public dynamic GetMetatable()
