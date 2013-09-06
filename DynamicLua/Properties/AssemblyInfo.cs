@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
 [assembly: AssemblyTitle("DynamicLua")]
-[assembly: AssemblyDescription("DynamicLua is a wrapper for the LuaInterface heavily using the .NET 4 'dynamic' Feature.")]
+[assembly: AssemblyDescription("DynamicLua is a wrapper for NLua heavily using the .NET 4 'dynamic' Feature.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Niklas Rother")]
 [assembly: AssemblyProduct("DynamicLua")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]

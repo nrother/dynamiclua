@@ -13,14 +13,16 @@
     <projectUrl>http://dynamiclua.codeplex.com/</projectUrl>
     <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=dynamiclua&amp;DownloadId=292901&amp;Build=20748</iconUrl>
     <description>
-      DynamicLua is a wrapper for the LuaInterface heavily using the .NET 4 "dynamic" Feature. (LuaInterface is a Lua&lt;-&gt;C# Bridge)
+      DynamicLua is a wrapper for NLua heavily using the .NET 4 "dynamic" Feature. (NLua is a Lua&lt;-&gt;C# Bridge)
       It makes it easier and more idiomatic to use Lua in C# Code.
     </description>
   </metadata>
   <files>
-    <file src="bin\$configuration$\lua.dll"
-          target="lib\net40-Client\lua.dll" />
-    <file src="bin\$configuration$\LuaInterface.dll"
-          target="lib\net40-Client\LuaInterface.dll" />
+    <file src="bin\$configuration$\KeraLua.dll"
+          target="lib\net40-Client\KeraLua.dll" />
+    <file src="bin\$configuration$\NLua.dll"
+          target="lib\net40-Client\NLua.dll" />
+    <file src="bin\$configuration$\lua52.dll"
+          target="lib\net40-Client\lua52.dll" />
   </files>
 </package>

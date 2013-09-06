@@ -1,4 +1,4 @@
-﻿DynamicLua 1.0 beta2
+﻿DynamicLua 1.1 beta
 ===================
 developed by Niklas Rother (niklas-rother.de)
 
@@ -26,12 +26,21 @@ Help
 ----
 If you want to help this project, write an email to the adress above, any help is appreciated!
 
+Changes
+-------
+Version 1.1 beta
+- Switched from LuaInterface to fork NLua
+- Updated Lua to version 5.2.2
+
+Version 1.0 beta
+- Initial release
+
 Licence
 -------
 Copyright 2011-2013 Niklas Rother
 
 DynamicLua is licensed under the Apache License, Version 2.0.
-Lua and LuaInterface are licensed under the MIT Licence.
+Lua and NLua are licensed under the MIT Licence.
 
 A full copy of the Licences can be found in the "LICENSE_Apache.txt"
 and "LICENSE_MIT.txt" file. Please include the "NOTICE.txt" File,
