@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
 [assembly: AssemblyTitle("DynamicLua")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("DynamicLua is a wrapper for the LuaInterface heavily using the .NET 4 'dynamic' Feature.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Niklas Rother")]
 [assembly: AssemblyProduct("DynamicLua")]
-[assembly: AssemblyCopyright("Copyright ©  2011")]
+[assembly: AssemblyCopyright("Copyright © Niklas Rother 2011-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
