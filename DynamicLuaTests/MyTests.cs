@@ -374,5 +374,14 @@ namespace DynamicLuaTests
             }
             Assert.AreEqual(3, i);
         }
+
+        [TestMethod]
+        public void TestTablePassing()
+        {
+            dynamic tab = lua("return {a = 1, b = 2, c = 3}");
+            lua.tab = tab;
+            Assert.AreEqual("table", lua("return type(tab)")[0]);
+
+        }
     }
 }

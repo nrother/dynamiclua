@@ -80,6 +80,16 @@ namespace DynamicLua
         /// </summary>
         public static object WrapObject(object toWrap, Lua state, string name = null)
         {
+            if (toWrap is DynamicArray)
+            {
+                //Someone passed an DynamicArray diretly back to Lua.
+                //He wanted to pass the value in the array, so we extract it.
+                //When there is more than one value, this method will ignore these extra value.
+                //This could happen in a situation like this: lua.tmp = lua("return a,b");, but
+                //that doesn't make sense.
+                toWrap = (toWrap as dynamic)[0];
+            }
+            
             if (toWrap is MulticastDelegate)
             {
                 //We have to deal with a problem here: RegisterFunction does not really create

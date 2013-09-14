@@ -37,6 +37,11 @@ namespace LuaTest
             lua.DoFile("test.lua");
             Console.WriteLine(lua.tab.test);
 
+            dynamic tab = lua("return {a = 1, b = 2, c = 3}");
+            lua.tab = tab;
+            lua("print(type(tab))");
+            lua("for k,v in pairs(tab) do print(k,v) end");
+
             Console.ReadKey(true);
         }
     }
