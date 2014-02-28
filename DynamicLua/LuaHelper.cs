@@ -17,13 +17,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NLua;
+using System.IO;
+using System.Reflection;
 
 namespace DynamicLua
 {
     static class LuaHelper
     {
         public const int RandomNameLength = 8;
-        
+
         public static Random Random { get; private set; }
 
         static LuaHelper() //static ctor
@@ -89,7 +91,7 @@ namespace DynamicLua
                 //that doesn't make sense.
                 toWrap = (toWrap as dynamic)[0];
             }
-            
+
             if (toWrap is MulticastDelegate)
             {
                 //We have to deal with a problem here: RegisterFunction does not really create
@@ -125,10 +127,39 @@ namespace DynamicLua
                 return toWrap;
         }
 
+        /// <summary>
+        /// This method extract the included native Lua-DLLs.
+        /// It's important to extract the correct 32/64-bit version.
+        /// We extract to %tmp%, we might not have write access to the
+        /// current assembliy's locations.
+        /// We append the path to the extracted DLLs to %PATH%, to make
+        /// allow the system to find the DLL.
+        /// </summary>
         internal static void ExtractNativeDlls()
         {
+            string extractPath = Path.Combine(Path.GetTempPath(), "DynamicLuaNativeDLLs", Assembly.GetExecutingAssembly().GetName().Version.ToString(), Environment.Is64BitProcess ? "x64" : "x86");
+            string dllName = "lua52.dll";
+            string extractFullName = Path.Combine(extractPath, dllName);
 
-            throw new NotImplementedException();
+            Environment.SetEnvironmentVariable("path", Environment.GetEnvironmentVariable("path") + ";" + extractPath);
+
+            if (File.Exists(extractFullName))
+                return; //file exists, no need to unpack it again
+
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(string.Format("{0}.{1}.{2}", "DynamicLua", (Environment.Is64BitProcess ? "x64" : "x86"), dllName)))
+            {
+                try
+                {
+                    Directory.CreateDirectory(extractPath);
+                    using (var fs = File.Create(extractFullName))
+                        stream.CopyTo(fs);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error while unpacking the native DLL, ignoring");
+                    //ignore, probably a race condition ("file does not exists, but we cannot write to it")
+                }
+            }
         }
     }
 }

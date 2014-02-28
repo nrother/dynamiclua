@@ -1,7 +1,7 @@
 ﻿DynamicLua is developed by Niklas Rother, 2011-2014.
 You will find his (german) Blog at niklas-rother.de and may send a mail to info (a) niklas (-) rother (.) de.
 
-It is based on NLua and Lua, both published under the MIT License.
+DynamicLua is based on NLua and KeraLua as well as Lua, all published under the MIT License.
 
 Documentation at http://dynamiclua.codeplex.com
 

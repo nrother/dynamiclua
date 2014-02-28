@@ -34,22 +34,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libz", "libz", "{DF4D0146-1
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
-		Release|x86 = Release|x86
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C23DB83E-4176-455E-ADD0-B138B80CE2F3}.Debug|x86.ActiveCfg = Debug|x86
-		{C23DB83E-4176-455E-ADD0-B138B80CE2F3}.Debug|x86.Build.0 = Debug|x86
-		{C23DB83E-4176-455E-ADD0-B138B80CE2F3}.Release|x86.ActiveCfg = Release|x86
-		{C23DB83E-4176-455E-ADD0-B138B80CE2F3}.Release|x86.Build.0 = Release|x86
-		{0FCA0DB2-08AE-410E-A50B-F4C9604FFCC2}.Debug|x86.ActiveCfg = Debug|x86
-		{0FCA0DB2-08AE-410E-A50B-F4C9604FFCC2}.Debug|x86.Build.0 = Debug|x86
-		{0FCA0DB2-08AE-410E-A50B-F4C9604FFCC2}.Release|x86.ActiveCfg = Release|x86
-		{0FCA0DB2-08AE-410E-A50B-F4C9604FFCC2}.Release|x86.Build.0 = Release|x86
-		{559D6979-A6AA-4CF9-8300-DEEF05F97417}.Debug|x86.ActiveCfg = Debug|x86
-		{559D6979-A6AA-4CF9-8300-DEEF05F97417}.Debug|x86.Build.0 = Debug|x86
-		{559D6979-A6AA-4CF9-8300-DEEF05F97417}.Release|x86.ActiveCfg = Release|x86
-		{559D6979-A6AA-4CF9-8300-DEEF05F97417}.Release|x86.Build.0 = Release|x86
+		{C23DB83E-4176-455E-ADD0-B138B80CE2F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C23DB83E-4176-455E-ADD0-B138B80CE2F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C23DB83E-4176-455E-ADD0-B138B80CE2F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C23DB83E-4176-455E-ADD0-B138B80CE2F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FCA0DB2-08AE-410E-A50B-F4C9604FFCC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FCA0DB2-08AE-410E-A50B-F4C9604FFCC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FCA0DB2-08AE-410E-A50B-F4C9604FFCC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FCA0DB2-08AE-410E-A50B-F4C9604FFCC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{559D6979-A6AA-4CF9-8300-DEEF05F97417}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{559D6979-A6AA-4CF9-8300-DEEF05F97417}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{559D6979-A6AA-4CF9-8300-DEEF05F97417}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{559D6979-A6AA-4CF9-8300-DEEF05F97417}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

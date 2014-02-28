@@ -29,8 +29,10 @@ If you want to help this project, write an email to the adress above, any help i
 Changes
 -------
 Version 1.1 beta
+- x64 support (!)
 - Switched from LuaInterface to fork NLua
 - Updated Lua to version 5.2.2
+- Made a lot of iternal changes
 
 Version 1.0 beta
 - Initial release
