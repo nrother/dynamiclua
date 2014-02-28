@@ -37,7 +37,7 @@ Version 1.0 beta
 
 Licence
 -------
-Copyright 2011-2013 Niklas Rother
+Copyright 2011-2014 Niklas Rother
 
 DynamicLua is licensed under the Apache License, Version 2.0.
 Lua and NLua are licensed under the MIT Licence.
