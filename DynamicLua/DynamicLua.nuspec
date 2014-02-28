@@ -17,14 +17,9 @@
       It makes it easier and more idiomatic to use Lua in C# Code.
     </description>
     <references>
-      <reference file="KeraLua.dll" />
       <reference file="DynamicLua.dll" />
-      <reference file="NLua.dll" />
     </references>
   </metadata>
   <files>
-    <file src="bin\$configuration$\NLua.dll" target="lib\net40-Client\NLua.dll" />
-    <file src="bin\$configuration$\KeraLua.dll" target="lib\net40-Client\KeraLua.dll" />
-    <file src="bin\$configuration$\lua52.dll" target="lib\net40-Client\lua52.dll" />
   </files>
 </package>

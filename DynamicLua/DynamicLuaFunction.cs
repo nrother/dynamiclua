@@ -24,7 +24,7 @@ namespace DynamicLua
     {
         private LuaFunction function;
 
-        public DynamicLuaFunction(LuaFunction function)
+        internal DynamicLuaFunction(LuaFunction function)
             : base()
         {
             this.function = function;

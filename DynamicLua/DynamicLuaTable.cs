@@ -28,7 +28,7 @@ namespace DynamicLua
         private Lua state;
         private string path;
 
-        public DynamicLuaTable(LuaTable table, Lua state, string path = null)
+        internal DynamicLuaTable(LuaTable table, Lua state, string path = null)
             : base()
         {
             this.table = table;

@@ -124,5 +124,11 @@ namespace DynamicLua
             else
                 return toWrap;
         }
+
+        internal static void ExtractNativeDlls()
+        {
+
+            throw new NotImplementedException();
+        }
     }
 }

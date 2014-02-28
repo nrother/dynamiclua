@@ -26,7 +26,7 @@ namespace DynamicLua
         private object[] array;
         private Lua state;
 
-        public DynamicArray(object[] array, Lua state)
+        internal DynamicArray(object[] array, Lua state)
         {
             this.array = array != null ? array : new object[0];
             this.state = state;

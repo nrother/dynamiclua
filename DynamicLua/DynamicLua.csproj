@@ -36,13 +36,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KeraLua, Version=1.3.0.0, Culture=neutral, PublicKeyToken=04d04586786c6f34, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NLua.1.3.0.2\lib\net40\x86\KeraLua.dll</HintPath>
-    </Reference>
     <Reference Include="NLua, Version=1.3.0.0, Culture=neutral, PublicKeyToken=8df2ab518030ea95, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NLua.1.3.0.2\lib\net40\x86\NLua.dll</HintPath>
+      <HintPath>.\NLua.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,6 +53,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="x64\lua52.dll" />
+    <EmbeddedResource Include="x86\lua52.dll" />
     <None Include="KeraLua.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -66,9 +64,6 @@
     <Content Include="LICENSE_MIT.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="lua52.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="NLua.dll" />
     <Content Include="NOTICE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -76,7 +71,6 @@
     <Content Include="Readme.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DynamicLua.nuspec" />
@@ -91,7 +85,9 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
   -->
+  <Target Name="AfterBuild">
+	<Message Text="Merge der Assemblies" Importance="high" />
+	<Exec Command="&quot;$(SolutionDir)Utilities\libz\libz.exe&quot; inject-dll -a=DynamicLua.dll -i=NLua.dll -i=KeraLua.dll" WorkingDirectory="$(TargetDir)" />
+  </Target>
 </Project>

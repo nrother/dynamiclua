@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicLua", "DynamicLua\DynamicLua.csproj", "{C23DB83E-4176-455E-ADD0-B138B80CE2F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuaTest", "LuaTest\LuaTest.csproj", "{0FCA0DB2-08AE-410E-A50B-F4C9604FFCC2}"
@@ -20,11 +22,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8F9BE3
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
-+EndProject
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{4B301B07-45B2-44C0-A347-577449C683EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libz", "libz", "{DF4D0146-1B44-4DBD-8B7D-5323568C3268}"
+	ProjectSection(SolutionItems) = preProject
+		Utilities\libz\doboz.libzcodec = Utilities\libz\doboz.libzcodec
+		Utilities\libz\libz.exe = Utilities\libz\libz.exe
+		Utilities\libz\lz4.libzcodec = Utilities\libz\lz4.libzcodec
+	EndProjectSection
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = DynamicLua.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
@@ -45,5 +53,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DF4D0146-1B44-4DBD-8B7D-5323568C3268} = {4B301B07-45B2-44C0-A347-577449C683EA}
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = DynamicLua.vsmdi
 	EndGlobalSection
 EndGlobal
