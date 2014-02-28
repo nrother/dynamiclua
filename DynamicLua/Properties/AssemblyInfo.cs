@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Niklas Rother")]
 [assembly: AssemblyProduct("DynamicLua")]
-[assembly: AssemblyCopyright("Copyright © Niklas Rother 2011-2013")]
+[assembly: AssemblyCopyright("Copyright © Niklas Rother 2011-2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
