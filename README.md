@@ -5,7 +5,7 @@ It makes it easier and more idiomatic to use Lua in C# Code. DynamicLua is writt
 ## Example/Features
 
 * Easy access to Lua
-* Use Lua-Metatables in C# ([[see documentation|MetaTablesInCSharp]])
+* Use Lua-Metatables in C# ([see documentation](https://github.com/nrother/dynamiclua/wiki/MetaTablesInCSharp))
 * Nearly complete unit-tested
 * _Works as you expect it to_
 * OpenSource under Apache License 2.0
@@ -28,17 +28,17 @@ lua.str = "another string"; //No index operator
 lua.num += 10; //A LOT cleaner
 ```
 
-There a more features witch makes it much easier to use Lua in C#. All features are explained on the [[Features]] site.
+There a more features witch makes it much easier to use Lua in C#. All features are explained on the [Features](https://github.com/nrother/dynamiclua/wiki/Features) site.
 
 ## Project Status
 A lot of the work is done. Some of the implemented features a shown in the Examples above.
-There is still some polishing to be done, and some problems to be solved. Detailed information on every feature's status is available on the [[Features]] site.
+There is still some polishing to be done, and some problems to be solved. Detailed information on every feature's status is available on the [Features](https://github.com/nrother/dynamiclua/wiki/Features) site.
 
 ## Contributing
 This project is currently developed only by [me](http://niklas-rother.de). I appreciate any help, just have a look on the [issue tracker](https://github.com/nrother/dynamiclua/issues). You can contact me in German or English.
 
 ## License
-DynamicLua is licensed under the Apache License 2.0. It includes [NLua](https://github.com/NLua/NLua), KeraLua(https://github.com/NLua/KeraLua) and [Lua](http://lua.org) itself (all included in the binary), these are licensed under the MIT License.
+DynamicLua is licensed under the Apache License 2.0. It includes [NLua](https://github.com/NLua/NLua), [KeraLua](https://github.com/NLua/KeraLua) and [Lua](http://lua.org) itself (all included in the binary), these are licensed under the MIT License.
 
 ## News
 * 06.09.13: There is a [NuGet-Package for DynamicLua](https://www.nuget.org/packages/DynamicLua/)! Thanks for Jim Counts both for the idea and the patch.
