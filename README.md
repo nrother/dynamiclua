@@ -1,4 +1,6 @@
 # DynamicLua
+![DynamicLua Logo](https://github.com/nrother/dynamiclua/blob/master/dynamiclua_logo.png)
+
 **DynamicLua** is a wrapper for [NLua](https://github.com/NLua/NLua) heavily using the .NET 4 `dynamic` Feature. (NLua is a Lua/C# Bridge)
 It makes it easier and more idiomatic to use Lua in C# Code. DynamicLua is written in C# and includes unit tests for nearly everything. Most of the tests are converted from the LuaInterface/NLua project.
 

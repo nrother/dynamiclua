@@ -2,12 +2,9 @@
 ===================
 developed by Niklas Rother (niklas-rother.de)
 
-DynamicLua is a wrapper for NLua heavily using the .NET 4 "dynamic" Feature. (NLua is a Lua<->C# Bridge)
+DynamicLua is a wrapper for NLua heavily using the .NET 4 "dynamic" Feature. (NLua is a Lua/C# Bridge)
 It makes it easier and more idiomatic to use Lua in C# Code.
 DynamicLua is written in C# and includes unit tests for nearly everything. Most of the tests are converted from the LuaInterface/NLua project.
-
-You might download the binary or source distribution. The binary distribution contains only the three DLL Files and some Texts,
-the source distribution the whole source code. The source code is packaged as a Visual Studio 2012 Solution, containing 3 projects:
 
 "DynamicLua" is the main project containing the code for DynamicLua.dll
 "DynamicLuaTest" contains the Unittests for DynamicLua, partly copied from the LuaInterface/NLua project
@@ -15,12 +12,12 @@ the source distribution the whole source code. The source code is packaged as a 
 
 Documentation
 -------------
-Please refer to the official documentation on the Codeplex site: http://dynamiclua.codeplex.com/documentation
+Please refer to the official documentation on the GitHub site: https://github.com/nrother/dynamiclua/wiki
 
 Bugs/Feedback
 -------------
-You might report bugs on the Codeplex site in the Issue Tracker: http://dynamiclua.codeplex.com/workitem/list/basic
-You can also drop me an email, write to info (ät) niklas-rother (dot) de, in English or German.
+You might report bugs on the Codeplex site in the Issue Tracker: https://github.com/nrother/dynamiclua/issues
+You can also drop me an email, write to info (at) niklas-rother (dot) de, in English or German.
 
 Help
 ----
@@ -33,6 +30,7 @@ Version 1.1 beta
 - Switched from LuaInterface to fork NLua
 - Updated Lua to version 5.2.2
 - Made a lot of iternal changes
+- Just one DLL, NLua, KeraLua and Lua itself are embedded.
 
 Version 1.0 beta
 - Initial release
