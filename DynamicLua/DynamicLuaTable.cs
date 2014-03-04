@@ -82,11 +82,17 @@ namespace DynamicLua
 
         private object GetTableValue(string name)
         {
+            object val = table[name];
+            if(val != null)
+                return LuaHelper.UnWrapObject(val, state, path + "." + name);
+
+            //not found, check __index of metatable
+            
             LuaFunction func = GetMetaFunction("index");
             if (func != null) //metatable and metamethod set
                 return LuaHelper.UnWrapObject(func.Call(table, name)[0], state, path + "." + name);
             else
-                return LuaHelper.UnWrapObject(table[name], state, path + "." + name);
+                return null;
         }
 
         //Gets a function from this table's metatable or null if not found. Works even if the metatable is protected. The two underscores are added by this method!!

@@ -383,5 +383,19 @@ namespace DynamicLuaTests
             Assert.AreEqual("table", lua("return type(tab)")[0]);
 
         }
+
+        [TestMethod]
+        public void TestIndexOnlyIfNotFound()
+        {
+            dynamic mt = lua.NewTable("mt");
+            mt.__index = new Func<dynamic, dynamic, dynamic>((t, k) => 5);
+
+            dynamic tab = lua.NewTable("tab");
+            tab.a = 4;
+            tab.SetMetatable(mt);
+
+            Assert.AreEqual(4, tab.a);
+            Assert.AreEqual(5, tab.b);
+        }
     }
 }

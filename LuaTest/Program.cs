@@ -43,6 +43,17 @@ namespace LuaTest
             lua("print(type(tab))");
             lua("for k,v in pairs(tab) do print(k,v) end");
 
+            //RawGet test
+            dynamic mt = lua.NewTable("mt");
+            //mt.__index = lua("return { a = 5 }");
+            mt.__index = new Func<dynamic, dynamic, dynamic>((t, k) => 5);
+
+            tab = lua.NewTable("tab");
+            tab.a = 4;
+            tab.SetMetatable(mt);
+
+            Console.WriteLine(tab.b);
+
             Console.ReadKey(true);
         }
     }
