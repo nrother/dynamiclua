@@ -20,6 +20,7 @@ using NLua;
 using System.Dynamic;
 using System.Linq.Expressions;
 using System.Collections;
+using System.Linq;
 
 namespace DynamicLua
 {
@@ -155,7 +156,7 @@ namespace DynamicLua
                 if (args.Length == 0)
                     result = new DynamicArray(func.Call(table), state);
                 else
-                    result = new DynamicArray(func.Call(table, args), state);
+                    result = new DynamicArray(func.Call(new object[]{table}.Concat(args).ToArray()), state);
                 return true;
             }
             else
