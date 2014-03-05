@@ -41,6 +41,7 @@ namespace DynamicLua
             : base()
         {
             lua = new Lua();
+            lua.LoadCLRPackage();
         }
 
         ~DynamicLua()
