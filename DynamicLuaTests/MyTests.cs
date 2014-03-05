@@ -263,10 +263,11 @@ namespace DynamicLuaTests
         {
             dynamic tab = lua.NewTable("tab");
             dynamic mt = lua.NewTable("mt");
-            mt.__call = new Func<dynamic, object>((t) => "call no args");
+            mt.__call = new Func<dynamic, dynamic, dynamic>((t, a) => "a = " + a);
             tab.SetMetatable(mt);
 
-            Assert.AreEqual("call no args", (string)tab()); //Need explicit cast for Assert...
+            Assert.AreEqual("a = 4", (string)tab(4)); //Need explicit cast for Assert...
+            Assert.AreEqual("a = 5", (string)lua.tab(5)); //Need explicit cast for Assert...
         }
 
         [TestMethod]
@@ -396,6 +397,18 @@ namespace DynamicLuaTests
 
             Assert.AreEqual(4, tab.a);
             Assert.AreEqual(5, tab.b);
+        }
+
+        [TestMethod]
+        public void TestImportMethod()
+        {
+            //Test if CLR access through the import() method works
+            lua("import(\"System\")");
+            lua.import("System.Text");
+            var ftp = lua("return FtpStyleUriParser()")[0];
+            Assert.IsInstanceOfType(ftp, typeof(FtpStyleUriParser));
+            var sb = lua.StringBuilder(); //this currently does not work because StringBuilder is NLua.ProxyType here
+            Assert.IsInstanceOfType(sb, typeof(StringBuilder));
         }
     }
 }

@@ -65,12 +65,12 @@ namespace DynamicLua
 
         public DynamicLuaFunction LoadFile(string path)
         {
-            return new DynamicLuaFunction(lua.LoadFile(Path.Combine(Environment.CurrentDirectory, path)));
+            return new DynamicLuaFunction(lua.LoadFile(Path.Combine(Environment.CurrentDirectory, path)), lua);
         }
 
         public DynamicLuaFunction LoadString(string chunk, string name = "")
         {
-            return new DynamicLuaFunction(lua.LoadString(chunk, name));
+            return new DynamicLuaFunction(lua.LoadString(chunk, name), lua);
         }
 
         public DynamicLuaTable NewTable(string name)
@@ -113,22 +113,6 @@ namespace DynamicLua
         {
             SetLuaMember(indexes[0].ToString(), value);
             return true;
-        }
-
-        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
-        {
-            LuaFunction func = lua.GetFunction(binder.Name);
-
-            if (func != null)
-            {
-                result = new DynamicArray(func.Call(args), lua);
-                return true;
-            }
-            else
-            {
-                result = null;
-                return false;
-            }
         }
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)

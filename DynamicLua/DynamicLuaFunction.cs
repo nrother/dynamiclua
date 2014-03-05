@@ -24,16 +24,18 @@ namespace DynamicLua
     public class DynamicLuaFunction : DynamicObject
     {
         private LuaFunction function;
+        private Lua state;
 
-        internal DynamicLuaFunction(LuaFunction function)
+        internal DynamicLuaFunction(LuaFunction function, Lua state)
             : base()
         {
             this.function = function;
+            this.state = state;
         }
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = function.Call(args);
+            result = new DynamicArray(function.Call(args), state);
             return true;
         }
     }

@@ -68,11 +68,11 @@ namespace DynamicLua
         public static object UnWrapObject(object wrapped, Lua state, string name = null)
         {
             if (wrapped is LuaTable)
-                return new DynamicLuaTable(wrapped as LuaTable, state, name);
+                return new DynamicLuaTable((LuaTable)wrapped, state, name);
             else if (wrapped is LuaFunction)
-                return new DynamicLuaFunction(wrapped as LuaFunction);
+                return new DynamicLuaFunction((LuaFunction)wrapped, state);
             else if (wrapped is MulticastDelegate)
-                return new DynamicLuaFunction(state.GetFunction(name));
+                return new DynamicLuaFunction(state.GetFunction(name), state);
             else
                 return wrapped;
         }
