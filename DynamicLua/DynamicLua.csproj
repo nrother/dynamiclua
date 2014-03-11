@@ -53,9 +53,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="x64\lua52.dll" />
-    <EmbeddedResource Include="x86\lua52.dll" />
-    <None Include="KeraLua.dll" />
+    <None Include="KopiLua.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="LICENSE_Apache.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -76,7 +76,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release "$(SolutionDir)Utilities\libz\libz.exe" inject-dll -a=$(TargetDir)DynamicLua.dll -i=$(TargetDir)NLua.dll -i=$(TargetDir)KeraLua.dll"</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Release "$(SolutionDir)Utilities\libz\libz.exe" inject-dll -a=$(TargetDir)DynamicLua.dll -i=$(TargetDir)NLua.dll -i=$(TargetDir)KopiLua.dll"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

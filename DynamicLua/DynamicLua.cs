@@ -27,11 +27,6 @@ namespace DynamicLua
     {
         private Lua lua;
 
-        static DynamicLua()
-        {
-            LuaHelper.ExtractNativeDlls();
-        }
-
         internal Lua LuaInstance
         {
             get { return lua; }
