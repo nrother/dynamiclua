@@ -75,6 +75,9 @@ namespace DynamicLua
 
         public DynamicLuaTable NewTable(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentException("The name cannot be null or emtpy.", "name");
+            
             lua.NewTable(name);
             return new DynamicLuaTable(lua[name] as LuaTable, lua, name);
         }
