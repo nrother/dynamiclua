@@ -1,5 +1,5 @@
-﻿DynamicLua 1.1 beta
-===================
+﻿DynamicLua 1.1.1
+================
 developed by Niklas Rother (niklas-rother.de)
 
 DynamicLua is a wrapper for NLua heavily using the .NET 4 "dynamic" Feature. (NLua is a Lua/C# Bridge)
@@ -25,7 +25,12 @@ If you want to help this project, write an email to the adress above, any help i
 
 Changes
 -------
-Version 1.1 beta
+Version 1.1.1
+- Restored import() function (issue #9)
+- Added msvcr110.dll, this may be not present on target maschinens. Thanks fubar-coder!
+- Some bugfixes.
+
+Version 1.1
 - x64 support (!)
 - Switched from LuaInterface to fork NLua
 - Updated Lua to version 5.2.2

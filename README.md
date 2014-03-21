@@ -43,6 +43,8 @@ This project is currently developed only by [me](http://niklas-rother.de). I app
 DynamicLua is licensed under the Apache License 2.0. It includes [NLua](https://github.com/NLua/NLua), [KeraLua](https://github.com/NLua/KeraLua) and [Lua](http://lua.org) itself (all included in the binary), these are licensed under the MIT License.
 
 ## News
+* 21.03.14: Version 1.1.1 released, fixing some bugs.
+* 03.03.14: Version 1.1 released!
 * 06.09.13: There is a [NuGet-Package for DynamicLua](https://www.nuget.org/packages/DynamicLua/)! Thanks for Jim Counts both for the idea and the patch.
 * 19.01.12: The german magazin [dotnetpro](http://dotnetpro.de) has an [article](http://www.dotnetpro.de/articles/onlinearticle3990.aspx) about DynamicLua (written by me)
 * 13.10.11: Version 1.0beta released!
