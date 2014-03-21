@@ -53,6 +53,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="x64\msvcr110.dll" />
+    <EmbeddedResource Include="x86\msvcr110.dll" />
     <EmbeddedResource Include="x64\lua52.dll" />
     <EmbeddedResource Include="x86\lua52.dll" />
     <None Include="KeraLua.dll" />

@@ -129,20 +129,26 @@ namespace DynamicLua
         }
 
         /// <summary>
-        /// This method extract the included native Lua-DLLs.
-        /// It's important to extract the correct 32/64-bit version.
-        /// We extract to %tmp%, we might not have write access to the
-        /// current assembliy's locations.
-        /// We append the path to the extracted DLLs to %PATH%, to make
-        /// allow the system to find the DLL.
+        /// Path where the native DLLs are copied to.
         /// </summary>
-        internal static void ExtractNativeDlls()
+        private static string NativeDllPath
         {
-            string extractPath = Path.Combine(Path.GetTempPath(), "DynamicLuaNativeDLLs", Assembly.GetExecutingAssembly().GetName().Version.ToString(), Environment.Is64BitProcess ? "x64" : "x86");
-            string dllName = "lua52.dll";
-            string extractFullName = Path.Combine(extractPath, dllName);
+            get
+            {
+                if (_nativeDllPath == null)
+                    _nativeDllPath = Path.Combine(Path.GetTempPath(), "DynamicLuaNativeDLLs", Assembly.GetExecutingAssembly().GetName().Version.ToString(), Environment.Is64BitProcess ? "x64" : "x86");
+                return _nativeDllPath;
+            }
+        }
+        private static string _nativeDllPath;
 
-            Environment.SetEnvironmentVariable("path", Environment.GetEnvironmentVariable("path") + ";" + extractPath);
+        /// <summary>
+        /// Extract the native DLL to the <see cref="NativeDllPath"/>
+        /// </summary>
+        /// <param name="dllName"></param>
+        private static void ExtractNativeDll(string dllName)
+        {
+            string extractFullName = Path.Combine(NativeDllPath, dllName);
 
             if (File.Exists(extractFullName))
                 return; //file exists, no need to unpack it again
@@ -151,7 +157,7 @@ namespace DynamicLua
             {
                 try
                 {
-                    Directory.CreateDirectory(extractPath);
+                    Directory.CreateDirectory(NativeDllPath);
                     using (var fs = File.Create(extractFullName))
                         stream.CopyTo(fs);
                 }
@@ -161,6 +167,21 @@ namespace DynamicLua
                     //ignore, probably a race condition ("file does not exists, but we cannot write to it")
                 }
             }
+        }
+
+        /// <summary>
+        /// This method extract the included native Lua-DLLs.
+        /// It's important to extract the correct 32/64-bit version.
+        /// We extract to %tmp%, we might not have write access to the
+        /// current assembliy's locations.
+        /// We append the path to the extracted DLLs to %PATH%, to make
+        /// allow the system to find the DLL.
+        /// </summary>
+        internal static void ExtractNativeDlls()
+        {
+            ExtractNativeDll("lua52.dll");
+            ExtractNativeDll("msvcr110.dll");
+            Environment.SetEnvironmentVariable("PATH", string.Concat(NativeDllPath, ";", Environment.GetEnvironmentVariable("PATH")));
         }
     }
 }
