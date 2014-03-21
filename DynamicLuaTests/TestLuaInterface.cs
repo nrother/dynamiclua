@@ -10,7 +10,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DynamicLuaTests
 {
     [TestClass]
-    [DeploymentItem("lua52.dll")]
     public class TestLuaInterface
     {
         private dynamic lua;
