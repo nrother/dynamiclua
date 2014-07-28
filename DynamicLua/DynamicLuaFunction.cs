@@ -21,7 +21,7 @@ using NLua;
 
 namespace DynamicLua
 {
-    public class DynamicLuaFunction : DynamicObject
+    public class DynamicLuaFunction : DynamicObject, IDisposable
     {
         private LuaFunction function;
         private Lua state;
@@ -31,6 +31,17 @@ namespace DynamicLua
         {
             this.function = function;
             this.state = state;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+                function.Dispose();
         }
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)

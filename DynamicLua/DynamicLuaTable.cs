@@ -24,7 +24,7 @@ using System.Linq;
 
 namespace DynamicLua
 {
-    public class DynamicLuaTable : DynamicObject, IEnumerable, IEnumerable<KeyValuePair<object, object>>
+    public class DynamicLuaTable : DynamicObject, IEnumerable, IEnumerable<KeyValuePair<object, object>>, IDisposable
     {
         private LuaTable table;
         private Lua state;
@@ -40,9 +40,15 @@ namespace DynamicLua
             this.path = path;
         }
 
-        ~DynamicLuaTable()
+        public void Dispose()
         {
-            table.Dispose();
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+                table.Dispose();
         }
 
         public ICollection Keys

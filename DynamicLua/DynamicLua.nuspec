@@ -9,6 +9,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>$description$</summary>
     <copyright>Copyright © Niklas Rother 2011-2014</copyright>
+    <licenseUrl>https://github.com/nrother/dynamiclua/blob/master/DynamicLua/LICENSE_Apache.txt</licenseUrl>
     <projectUrl>https://github.com/nrother/dynamiclua</projectUrl>
     <iconUrl>https://raw.github.com/nrother/dynamiclua/master/dynamiclua_logo.png</iconUrl>
     <description>
@@ -17,6 +18,7 @@
     <references>
       <reference file="DynamicLua.dll" />
     </references>
+    <tags>dynamiclua, dynamic, lua, </tags>
   </metadata>
   <files>
   </files>

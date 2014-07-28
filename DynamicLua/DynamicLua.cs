@@ -44,18 +44,15 @@ namespace DynamicLua
             lua.LoadCLRPackage();
         }
 
-        ~DynamicLua()
-        {
-            Dispose();
-        }
-
         public void Dispose()
         {
-            if (lua != null)
-            {
-                lua.Close(); //no dispose(), this gives a access-violation...
-                lua = null;
-            }
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if(disposing)
+                lua.Dispose();
         }
 
         public DynamicArray DoFile(string path)
